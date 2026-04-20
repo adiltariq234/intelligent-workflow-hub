@@ -1,0 +1,31 @@
+[
+    {
+        "name": "Adil",
+        "age": 20,
+        "email": "adiltariq0327@gmail.com",
+        "pin": "1234",
+        "account_num": "CSL9#48",
+        "balance": 5000.0,
+        "created_at": "2026-04-19T22:38:14.046600",
+        "last_login": "2026-04-19T22:38:47.605340",
+        "transactions": [
+            {
+                "type": "deposit",
+                "amount": 5000,
+                "timestamp": "2026-04-19T22:39:16.264388",
+                "balance_after": 5000.0
+            }
+        ]
+    },
+    {
+        "name": "Adil",
+        "age": 25,
+        "email": "adiltariq0327@gmail.com",
+        "pin": "1234",
+        "account_num": "%38UOO7",
+        "balance": 0.0,
+        "created_at": "2026-04-19T22:46:07.186199",
+        "last_login": "2026-04-19T22:46:41.219590",
+        "transactions": []
+    }
+]
