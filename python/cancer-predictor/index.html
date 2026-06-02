@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Cancer Prediction Dashboard</title>
+
+    <style>
+        :root {
+            --bg-color: #0f1115; /* Dark premium tech background */
+            --card-bg: #1a1d24; /* Slate card background */
+            --accent-color: #d4af37; /* Gold accent color for premium touch */
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --input-bg: #242933;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-main);
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 750px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.1); /* Subtle gold border */
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        h1 span {
+            color: var(--accent-color);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* 2-Column Grid Layout for Form Fields */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        /* Full width for single items if needed on smaller screens */
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            vertical-align: middle;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+        }
+
+        button {
+            grid-column: span 2; /* Button takes full width of the grid */
+            margin-top: 15px;
+            padding: 14px;
+            background: var(--accent-color);
+            color: #000;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        button:hover {
+            background: #e6c24a;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        /* Premium Result Card Styling */
+        .result {
+            margin-top: 35px;
+            background: linear-gradient(135deg, #1e2330 0%, #161a24 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result h2 {
+            font-size: 20px;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .result p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>AI Breast Cancer <span>Predictor</span></h1>
+        <p class="subtitle">Enter tumor diagnostic values below for laboratory grade analysis.</p>
+    </header>
+
+    <form action="/predict" method="POST" class="form-grid">
+
+        <div class="form-group">
+            <label for="f1">Mean Radius (mm)</label>
+            <input type="number" step="any" id="f1" name="f1" placeholder="e.g., 17.99" required>
+        </div>
+
+        <div class="form-group">
+            <label for="f2">Mean Texture (Gray-scale)</label>
+            <input type="number" step="any" id="f2" name="f2" placeholder="e.g., 10.38" required>
+        </div>
+
+        <div class="form-group">
+            <label for="f3">Mean Perimeter (mm)</label>
+            <input type="number" step="any" id="f3" name="f3" placeholder="e.g., 122.80" required>
+        </div>
+
+        <div class="form-group">
+            <label for="f4">Mean Area (mm²)</label>
+            <input type="number" step="any" id="f4" name="f4" placeholder="e.g., 1001.0" required>
+        </div>
+
+        <div class="form-group" style="grid-column: span 2;">
+            <label for="f5">Mean Smoothness (Local Variance)</label>
+            <input type="number" step="any" id="f5" name="f5" placeholder="e.g., 0.1184" required>
+        </div>
+
+        <button type="submit">
+            Run AI Diagnostic Analysis
+        </button>
+
+    </form>
+
+    {% if prediction_text %}
+    <div class="result">
+        <h2>Diagnostic Analysis Result:</h2>
+        <p><strong>Status:</strong> {{ prediction_text }}</p>
+        <p style="margin-top: 8px;">{{ ai_response }}</p>
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
