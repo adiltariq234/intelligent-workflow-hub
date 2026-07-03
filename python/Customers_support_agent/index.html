@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Support Console — AI Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+<div class="console">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">◈</span>
+      <div class="brand-text">
+        <h1>Support Console</h1>
+        <p>Grounded answers, cited sources</p>
+      </div>
+    </div>
+
+    <section class="panel">
+      <h2 class="panel-title">Knowledge base</h2>
+      <div id="dropzone" class="dropzone">
+        <input type="file" id="file-input" multiple accept=".pdf,.txt,.docx,.md" hidden />
+        <div class="dropzone-icon">＋</div>
+        <p class="dropzone-label">Drop files or <span class="dropzone-link">browse</span></p>
+        <p class="dropzone-hint">PDF · DOCX · TXT · MD — up to 20MB each</p>
+      </div>
+      <div id="upload-progress" class="upload-progress hidden">
+        <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+        <span id="progress-label">Indexing…</span>
+      </div>
+      <ul id="doc-list" class="doc-list"></ul>
+    </section>
+
+    <section class="panel status-panel">
+      <h2 class="panel-title">Session</h2>
+      <div class="status-row">
+        <span class="status-dot" id="status-dot"></span>
+        <span id="status-text">Connecting…</span>
+      </div>
+      <button id="new-session-btn" class="ghost-btn">New conversation</button>
+    </section>
+  </aside>
+
+  <main class="chat-main">
+    <header class="chat-header">
+      <div>
+        <h2>AI Customer Support Agent</h2>
+        <p id="header-sub">Ask a question about your uploaded documents</p>
+      </div>
+    </header>
+
+    <div id="messages" class="messages">
+      <div class="message assistant">
+        <div class="avatar assistant-avatar">◈</div>
+        <div class="bubble">
+          <p>Hi — upload a document on the left, then ask me anything about it. I'll answer using only what's in your files and show you exactly where each answer came from.</p>
+        </div>
+      </div>
+    </div>
+
+    <form id="chat-form" class="chat-input-row">
+      <textarea id="chat-input" placeholder="Ask a question…" rows="1" maxlength="4000"></textarea>
+      <button type="submit" id="send-btn" class="send-btn" aria-label="Send message">↑</button>
+    </form>
+  </main>
+</div>
+
+<template id="citation-template">
+  <div class="citation-chip">
+    <div class="citation-chip-header">
+      <span class="citation-doc"></span>
+      <span class="citation-score-label"></span>
+    </div>
+    <div class="citation-score-track"><div class="citation-score-fill"></div></div>
+    <p class="citation-text"></p>
+  </div>
+</template>
+
+<script src="/static/js/chat.js"></script>
+</body>
+</html>

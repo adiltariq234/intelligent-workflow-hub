@@ -1,0 +1,65 @@
+2026-07-03 00:44:11 | INFO     | app.services.embeddings | Loading embedding model 'sentence-transformers/all-MiniLM-L6-v2' on device 'cpu'...
+2026-07-03 00:44:13 | WARNING  | huggingface_hub.utils._http | Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-07-03 00:44:20 | INFO     | app.services.embeddings | Embedding model loaded (device=cpu, batch_size=64).
+2026-07-03 00:44:32 | INFO     | app.api.websocket | WebSocket client disconnected.
+2026-07-03 00:47:03 | INFO     | app.api.upload | Parsed 'Book7 _ Deep Learning with Python,  (Final Release) by Francois Chollet - 2nd Edition.pdf' into 1034 chunks in 72.9s.
+2026-07-03 00:47:22 | INFO     | app.api.websocket | WebSocket client disconnected.
+2026-07-03 10:01:41 | INFO     | app.services.embeddings | Loading embedding model 'sentence-transformers/all-MiniLM-L6-v2' on device 'cpu'...
+2026-07-03 10:01:43 | WARNING  | huggingface_hub.utils._http | Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-07-03 10:03:59 | INFO     | app.services.embeddings | Embedding model loaded (device=cpu, batch_size=64).
+2026-07-03 10:07:13 | ERROR    | app.services.vector_store | MMR search failed.
+Traceback (most recent call last):
+  File "C:\Users\RM\Documents\AI\Python\customer-support-agent\app\services\vector_store.py", line 157, in mmr_search
+    candidates = self._client.query_points(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\RM\anaconda3\envs\my_envi\Lib\site-packages\qdrant_client\qdrant_client.py", line 423, in query_points
+    return self._client.query_points(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\RM\anaconda3\envs\my_envi\Lib\site-packages\qdrant_client\qdrant_remote.py", line 585, in query_points
+    query_result = self.http.search_api.query_points(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\RM\anaconda3\envs\my_envi\Lib\site-packages\qdrant_client\http\api\search_api.py", line 783, in query_points
+    return self._build_for_query_points(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\RM\anaconda3\envs\my_envi\Lib\site-packages\qdrant_client\http\api\search_api.py", line 181, in _build_for_query_points
+    return self.api_client.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\RM\anaconda3\envs\my_envi\Lib\site-packages\qdrant_client\http\api_client.py", line 95, in request
+    return self.send(request, type_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\RM\anaconda3\envs\my_envi\Lib\site-packages\qdrant_client\http\api_client.py", line 130, in send
+    raise UnexpectedResponse.for_response(response)
+qdrant_client.http.exceptions.UnexpectedResponse: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'{"status":{"error":"Not found: Collection `support_agent_docs` doesn\'t exist!"},"time":0.000141284}'
+2026-07-03 10:07:13 | WARNING  | app.api.websocket | Chat error for session 4012e8bd-f0b1-4d22-bc83-0f1b78ee9f1c: MMR retrieval failed: Unexpected Response: 404 (Not Found)
+Raw response content:
+b'{"status":{"error":"Not found: Collection `support_agent_docs` doesn\'t exist!"},"time":0.000141284}'
+2026-07-03 10:07:20 | INFO     | app.api.websocket | WebSocket client disconnected.
+2026-07-03 10:12:38 | INFO     | app.services.embeddings | Loading embedding model 'sentence-transformers/all-MiniLM-L6-v2' on device 'cpu'...
+2026-07-03 10:12:39 | WARNING  | huggingface_hub.utils._http | Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-07-03 10:12:49 | INFO     | app.services.embeddings | Embedding model loaded (device=cpu, batch_size=64).
+2026-07-03 10:12:50 | INFO     | app.services.vector_store | Creating Qdrant collection 'support_agent_docs'...
+2026-07-03 10:15:08 | INFO     | app.api.upload | Parsed 'Book6 _ Machine Learning With Python For Beginners_A step-by-step guide with hands-on-projects.pdf' into 242 chunks in 30.4s.
+2026-07-03 10:15:35 | INFO     | app.services.embeddings | Embedded 64/242 chunks...
+2026-07-03 10:15:58 | INFO     | app.services.embeddings | Embedded 128/242 chunks...
+2026-07-03 10:16:21 | INFO     | app.services.embeddings | Embedded 192/242 chunks...
+2026-07-03 10:16:38 | INFO     | app.services.embeddings | Embedded 242/242 chunks...
+2026-07-03 10:16:38 | INFO     | app.services.embeddings | Finished embedding 242 chunks in 90.5s.
+2026-07-03 10:16:43 | INFO     | app.api.upload | Embedded + indexed 'Book6 _ Machine Learning With Python For Beginners_A step-by-step guide with hands-on-projects.pdf' (242 chunks) in 95.1s.
+2026-07-03 10:16:43 | INFO     | app.api.upload | Indexed 'Book6 _ Machine Learning With Python For Beginners_A step-by-step guide with hands-on-projects.pdf' into 242 chunks (total 125.4s).
+2026-07-03 10:24:01 | INFO     | app.api.upload | Parsed 'Book4 _ Python Data Analytics_ Data Analysis and Science Using Pandas, matplotlib, and the Python Language.pdf' into 587 chunks in 18.6s.
+2026-07-03 10:24:27 | INFO     | app.services.embeddings | Embedded 64/587 chunks...
+2026-07-03 10:24:49 | INFO     | app.services.embeddings | Embedded 128/587 chunks...
+2026-07-03 10:25:11 | INFO     | app.services.embeddings | Embedded 192/587 chunks...
+2026-07-03 10:25:35 | INFO     | app.services.embeddings | Embedded 256/587 chunks...
+2026-07-03 10:26:01 | INFO     | app.services.embeddings | Embedded 320/587 chunks...
+2026-07-03 10:26:23 | INFO     | app.services.embeddings | Embedded 384/587 chunks...
+2026-07-03 10:26:45 | INFO     | app.services.embeddings | Embedded 448/587 chunks...
+2026-07-03 10:27:07 | INFO     | app.services.embeddings | Embedded 512/587 chunks...
+2026-07-03 10:27:30 | INFO     | app.services.embeddings | Embedded 576/587 chunks...
+2026-07-03 10:27:34 | INFO     | app.services.embeddings | Embedded 587/587 chunks...
+2026-07-03 10:27:34 | INFO     | app.services.embeddings | Finished embedding 587 chunks in 213.1s.
+2026-07-03 10:27:44 | INFO     | app.api.upload | Embedded + indexed 'Book4 _ Python Data Analytics_ Data Analysis and Science Using Pandas, matplotlib, and the Python Language.pdf' (587 chunks) in 223.4s.
+2026-07-03 10:27:44 | INFO     | app.api.upload | Indexed 'Book4 _ Python Data Analytics_ Data Analysis and Science Using Pandas, matplotlib, and the Python Language.pdf' into 587 chunks (total 242.1s).
+2026-07-03 11:01:19 | INFO     | app.api.websocket | WebSocket client disconnected.
