@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Desk — College Assistant</title>
+<style>
+  :root{
+    --ink:#1c2a24;
+    --paper:#eef0e6;
+    --panel:#ffffff;
+    --line:#c9cdb8;
+    --moss:#3c5c46;
+    --moss-dark:#2a4433;
+    --brass:#a9762f;
+    --brass-soft:#e7dcc4;
+    --muted:#6b7365;
+    --danger:#a1442f;
+    --radius:10px;
+    --serif:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+    --sans:"Inter","Helvetica Neue",Arial,sans-serif;
+    --mono:"IBM Plex Mono","Courier New",monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    background:
+      radial-gradient(1200px 600px at 15% -10%, #f5f2e4 0%, transparent 60%),
+      var(--paper);
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+
+  .desk{
+    width:100%;
+    max-width:920px;
+    height:min(88vh, 760px);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:0 1px 2px rgba(28,42,36,0.04), 0 18px 40px -20px rgba(28,42,36,0.25);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    position:relative;
+  }
+
+  /* ===== Header: registrar-desk ledger strip ===== */
+  .desk-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 26px;
+    border-bottom:1px solid var(--line);
+    background:
+      linear-gradient(180deg, #fbfaf4, #f4f2e8);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .brand-mark{
+    width:38px;height:38px;
+    border-radius:50%;
+    background:var(--moss);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--brass-soft);
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:17px;
+    flex-shrink:0;
+  }
+  .brand-text h1{
+    font-family:var(--serif);
+    font-size:19px;
+    font-weight:600;
+    margin:0;
+    letter-spacing:0.2px;
+  }
+  .brand-text p{
+    margin:2px 0 0;
+    font-size:11.5px;
+    color:var(--muted);
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+  }
+
+  .program-pill{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--moss-dark);
+    background:var(--brass-soft);
+    border:1px solid #d9c79a;
+    padding:6px 12px;
+    border-radius:999px;
+  }
+  .program-pill .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--moss);
+  }
+  .program-pill select{
+    border:none;background:transparent;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--moss-dark);
+    outline:none;
+    cursor:pointer;
+  }
+
+  /* ===== Intake screen ===== */
+  .intake{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+    text-align:center;
+    gap:26px;
+  }
+  .intake .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--brass);
+  }
+  .intake h2{
+    font-family:var(--serif);
+    font-size:34px;
+    line-height:1.15;
+    max-width:480px;
+    margin:0;
+  }
+  .intake p.sub{
+    color:var(--muted);
+    max-width:420px;
+    margin:0;
+    font-size:14.5px;
+    line-height:1.5;
+  }
+  .program-grid{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:6px;
+  }
+  .program-card{
+    width:150px;
+    padding:18px 14px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:#fcfbf6;
+    cursor:pointer;
+    transition:border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+    text-align:left;
+  }
+  .program-card:hover{
+    transform:translateY(-2px);
+    border-color:var(--moss);
+    box-shadow:0 10px 24px -16px rgba(28,42,36,0.35);
+  }
+  .program-card .code{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--brass);
+    letter-spacing:1px;
+  }
+  .program-card .name{
+    font-family:var(--serif);
+    font-size:18px;
+    margin-top:6px;
+  }
+  .program-card .desc{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:6px;
+    line-height:1.4;
+  }
+
+  /* ===== Chat area ===== */
+  .chat-wrap{
+    flex:1;
+    display:none;
+    flex-direction:column;
+    min-height:0;
+  }
+  .chat-wrap.active{display:flex;}
+  .intake.hidden{display:none;}
+
+  .messages{
+    flex:1;
+    overflow-y:auto;
+    padding:24px 26px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .messages::-webkit-scrollbar{width:8px;}
+  .messages::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px;}
+
+  .msg{
+    max-width:78%;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    animation:rise .25s ease;
+  }
+  @keyframes rise{
+    from{opacity:0; transform:translateY(6px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .msg.user{align-self:flex-end; align-items:flex-end;}
+  .msg.ai{align-self:flex-start; align-items:flex-start;}
+
+  .bubble{
+    padding:11px 15px;
+    border-radius:12px;
+    font-size:14.5px;
+    line-height:1.55;
+  }
+  .msg.user .bubble{
+    background:var(--moss);
+    color:#f3f1e6;
+    border-bottom-right-radius:3px;
+  }
+  .msg.ai .bubble{
+    background:#f4f2e8;
+    border:1px solid var(--line);
+    color:var(--ink);
+    border-bottom-left-radius:3px;
+  }
+  .msg.ai .bubble ul{margin:6px 0; padding-left:18px;}
+  .msg.ai .bubble li{margin-bottom:4px;}
+
+  .msg-meta{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--muted);
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+    padding:0 4px;
+  }
+
+  .tag{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:9.5px;
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+    padding:2px 7px;
+    border-radius:999px;
+    margin-bottom:5px;
+  }
+  .tag.academic{background:#e4ede3; color:var(--moss-dark); border:1px solid #c8dcc6;}
+  .tag.fee{background:var(--brass-soft); color:#7a5620; border:1px solid #d9c79a;}
+  .tag.general{background:#eee; color:var(--muted); border:1px solid var(--line);}
+
+  .typing{
+    display:flex;
+    gap:4px;
+    padding:13px 15px;
+    background:#f4f2e8;
+    border:1px solid var(--line);
+    border-radius:12px;
+    border-bottom-left-radius:3px;
+    width:fit-content;
+  }
+  .typing span{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--muted);
+    animation:bounce 1.2s infinite ease-in-out;
+  }
+  .typing span:nth-child(2){animation-delay:.15s;}
+  .typing span:nth-child(3){animation-delay:.3s;}
+  @keyframes bounce{
+    0%,60%,100%{transform:translateY(0); opacity:.5;}
+    30%{transform:translateY(-4px); opacity:1;}
+  }
+
+  /* ===== Composer ===== */
+  .composer{
+    border-top:1px solid var(--line);
+    padding:16px 20px;
+    background:#fbfaf4;
+    display:flex;
+    gap:10px;
+    align-items:flex-end;
+  }
+  .composer textarea{
+    flex:1;
+    resize:none;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:11px 13px;
+    font-family:var(--sans);
+    font-size:14px;
+    line-height:1.4;
+    max-height:120px;
+    background:#fff;
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s ease;
+  }
+  .composer textarea:focus{border-color:var(--moss);}
+  .composer textarea::placeholder{color:#9aa192;}
+
+  .send-btn{
+    width:42px;height:42px;
+    border-radius:8px;
+    border:none;
+    background:var(--moss);
+    color:#f3f1e6;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .send-btn:hover{background:var(--moss-dark);}
+  .send-btn:active{transform:scale(0.94);}
+  .send-btn:disabled{background:#c9cdb8; cursor:not-allowed;}
+
+  .composer-foot{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--muted);
+    text-align:center;
+    padding:8px 0 4px;
+    letter-spacing:0.3px;
+  }
+
+  .switch-link{
+    background:none;border:none;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    text-decoration:underline;
+    cursor:pointer;
+    padding:0;
+  }
+  .switch-link:hover{color:var(--moss);}
+
+  @media (max-width: 620px){
+    .desk{height:100vh; border-radius:0; max-width:100%;}
+    body{padding:0;}
+    .program-grid{gap:10px;}
+    .program-card{width:130px;}
+    .intake h2{font-size:26px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="desk">
+
+  <div class="desk-header">
+    <div class="brand">
+      <div class="brand-mark">CD</div>
+      <div class="brand-text">
+        <h1>Campus Desk</h1>
+        <p>Academic &amp; Fee Assistant</p>
+      </div>
+    </div>
+    <div class="program-pill" id="programPill" style="display:none;">
+      <span class="dot"></span>
+      <span id="programLabel">—</span>
+      <button class="switch-link" onclick="resetProgram()" style="margin-left:6px;">change</button>
+    </div>
+  </div>
+
+  <!-- INTAKE -->
+  <div class="intake" id="intake">
+    <div class="eyebrow">Before we start</div>
+    <h2>Which programme are you enrolled in?</h2>
+    <p class="sub">Campus Desk answers from your official handbook and fee documentation — pick your programme so the answers stay relevant to you.</p>
+    <div class="program-grid">
+      <div class="program-card" onclick="selectProgram('BBA')">
+        <div class="code">01</div>
+        <div class="name">BBA</div>
+        <div class="desc">Bachelor of Business Administration</div>
+      </div>
+      <div class="program-card" onclick="selectProgram('BCA')">
+        <div class="code">02</div>
+        <div class="name">BCA</div>
+        <div class="desc">Bachelor of Computer Applications</div>
+      </div>
+      <div class="program-card" onclick="selectProgram('B.COM (h)')">
+        <div class="code">03</div>
+        <div class="name">B.Com (H)</div>
+        <div class="desc">Bachelor of Commerce, Honours</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="chat-wrap" id="chatWrap">
+    <div class="messages" id="messages"></div>
+    <div class="composer">
+      <textarea id="input" placeholder="Ask about attendance, fees, exams…" rows="1"></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M4 12L20 4L14 20L11 13L4 12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="composer-foot">Answers are generated from official handbook &amp; fee documents</div>
+  </div>
+
+</div>
+
+<script>
+  // ============================================
+  // CONFIG — point this to your backend endpoint
+  // Your Python backend (Flask/FastAPI) should wrap
+  // the LangGraph `app.invoke(...)` call and expose:
+  //   POST /chat  { program, message }  -> { reply, query_type }
+  // ============================================
+  const API_URL = "/chat";
+
+  let currentProgram = null;
+  let history = [];
+
+  function selectProgram(program){
+    currentProgram = program;
+    document.getElementById('intake').classList.add('hidden');
+    document.getElementById('chatWrap').classList.add('active');
+    document.getElementById('programPill').style.display = 'flex';
+    document.getElementById('programLabel').textContent = program;
+
+    addMessage('ai', `Welcome! I'm your Campus Desk assistant for the <b>${program}</b> programme. Ask me anything about attendance, exams, fees, or academic policies.`, null);
+    document.getElementById('input').focus();
+  }
+
+  function resetProgram(){
+    currentProgram = null;
+    history = [];
+    document.getElementById('messages').innerHTML = '';
+    document.getElementById('chatWrap').classList.remove('active');
+    document.getElementById('intake').classList.remove('hidden');
+    document.getElementById('programPill').style.display = 'none';
+  }
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function formatBody(text){
+    // simple markdown-ish bullet support
+    let escaped = escapeHtml(text);
+    escaped = escaped.replace(/\n- (.*)/g, '\n<li>$1</li>');
+    if(escaped.includes('<li>')){
+      escaped = escaped.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    }
+    escaped = escaped.replace(/\n/g, '<br>');
+    return escaped;
+  }
+
+  function addMessage(role, text, tag){
+    const messages = document.getElementById('messages');
+    const wrap = document.createElement('div');
+    wrap.className = 'msg ' + (role === 'user' ? 'user' : 'ai');
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+
+    let inner = '';
+    if(tag){
+      inner += `<span class="tag ${tag}">${tag}</span><br>`;
+    }
+    inner += role === 'user' ? escapeHtml(text) : formatBody(text);
+    bubble.innerHTML = inner;
+
+    const meta = document.createElement('div');
+    meta.className = 'msg-meta';
+    meta.textContent = role === 'user' ? 'You' : 'Campus Desk';
+
+    if(role === 'user'){
+      wrap.appendChild(meta);
+      wrap.appendChild(bubble);
+    } else {
+      wrap.appendChild(bubble);
+      wrap.appendChild(meta);
+    }
+
+    messages.appendChild(wrap);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function showTyping(){
+    const messages = document.getElementById('messages');
+    const wrap = document.createElement('div');
+    wrap.className = 'msg ai';
+    wrap.id = 'typingIndicator';
+    wrap.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
+    messages.appendChild(wrap);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function hideTyping(){
+    const el = document.getElementById('typingIndicator');
+    if(el) el.remove();
+  }
+
+  async function sendMessage(){
+    const input = document.getElementById('input');
+    const text = input.value.trim();
+    if(!text || !currentProgram) return;
+
+    addMessage('user', text, null);
+    input.value = '';
+    input.style.height = 'auto';
+    document.getElementById('sendBtn').disabled = true;
+    showTyping();
+
+    try{
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          program: currentProgram,
+          message: text,
+          history: history
+        })
+      });
+
+      if(!res.ok) throw new Error('Request failed: ' + res.status);
+      const data = await res.json();
+
+      hideTyping();
+      addMessage('ai', data.reply || "I couldn't find this information in the official college documentation.", data.query_type || null);
+
+      history.push({ role: 'user', content: text });
+      history.push({ role: 'ai', content: data.reply || '' });
+
+    }catch(err){
+      hideTyping();
+      addMessage('ai', "Something went wrong reaching the assistant backend. Please check that the server is running and try again.", null);
+      console.error(err);
+    }finally{
+      document.getElementById('sendBtn').disabled = false;
+      input.focus();
+    }
+  }
+
+  // Enter to send, Shift+Enter for newline
+  const inputEl = document.getElementById('input');
+  inputEl.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+  inputEl.addEventListener('input', function(){
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+  });
+</script>
+
+</body>
+</html>
